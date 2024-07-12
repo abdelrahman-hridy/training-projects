@@ -2,6 +2,7 @@
 #include<iostream>
 #include<algorithm>
 #include<vector>
+#include <string>
 using namespace std;
 
 int const MaxBooks = 1000;
@@ -23,8 +24,8 @@ struct books
 	int code;
 	int quantity;
 	string check;
+	bool searchable = 1;
 }book[MaxBooks];
-
 
 bool compar_title(books& a, books& b)
 {
@@ -39,46 +40,32 @@ bool compar_code(books& a, books& b)
 void Add_Book()
 {
 	cout << "enter (id, name, quantity)\n";
-	cin >> book[BookCount++].code >> book[BookCount++].title >> book[BookCount++].quantity;
+	cin >> book[BookCount].code >> book[BookCount].title >> book[BookCount].quantity;
 	BookCount++;
 } 
 
-void Search_Book_By_Name()
+void Search_Book_By_prefix()
 {
-	string name;
-	int sample1 = 0; int i = 0;
-	bool intact = 1;
-	bool exist = 1;
-	cout << "enter book name\n";
-	cin >> name;
-	while (intact)
-	{
-		if (name[i] != ' ')
-		{
-			sample1++;
-			i++;
-		}
-		else
-			intact = 0;
-	}
-	for (int i = 0; i < sample1; i++)
+	string prefix; cin >> prefix;
+	int len = prefix.length();
+	for (int i = 0; i < len; i++)
 	{
 		for (int j = 0; j < BookCount; j++)
 		{
-			if (name[i] == book->title[j])
-			{
-				book->check[j] = 'y';
+			if (book[j].searchable = 0)
 				continue;
-			}
-			else
+			if (book[j].title[i] != prefix[i])
 			{
-				book->check = 'n';
-				exist = 0;
-				break;
+				book[j].searchable = 0;
 			}
 		}
-		if (exist)
-			break;
+	}
+	for (int j = 0; j < BookCount; j++)
+	{
+		if (book[j].searchable = 1)
+		{
+			cout << book[j].title << endl;
+		}
 	}
 }
 
@@ -124,9 +111,9 @@ void main()
 			Add_Book();
 			break;
 
-		//case 2:
-		//	book->Add_Book();
-		//	break;
+		case 2:
+			Search_Book_By_prefix();
+			break;
 
 		//case 3:
 		//	book->Add_Book();
