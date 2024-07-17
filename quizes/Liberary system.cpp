@@ -7,6 +7,7 @@ using namespace std;
 
 int const MaxBooks = 1000;
 int const MaxUsers = 50;
+int const MaxBookBorrowed = 10;
 int BookCount = 0;
 int UserCount = 0;
 
@@ -14,7 +15,7 @@ struct client
 {
 	string name;
 	int id;
-	int BorrowedBooks[10] = {0};
+	int BorrowedBooks[MaxBookBorrowed] = {0};
 	int BorrowedCount=0;
 }users[MaxUsers];
 
@@ -72,7 +73,7 @@ void Print_Liberary_By_Id()
 	sort(book, book + (BookCount - 1), compar_code);
 	for (int i = 0; i < BookCount; i++)
 	{
-		cout << book[i].code << " " << book[i].title << " " << book[i].quantity << book[i].TotalBorrowed << "\n";
+		cout << book[i].code << " " << book[i].title << " " << book[i].quantity << " " << book[i].TotalBorrowed << "\n";
 	}
 }
 
@@ -81,7 +82,7 @@ void Print_Liberary_By_title()
 	sort(book, book + (BookCount - 1), compar_title);
 	for (int i = 0; i < BookCount; i++)
 	{
-		cout << book[i].code << " " << book[i].title << " " << book[i].quantity << book[i].TotalBorrowed << "\n";
+		cout << book[i].code << " " << book[i].title << " " << book[i].quantity << " " << book[i].TotalBorrowed << "\n";
 	}
 }
 
@@ -190,12 +191,31 @@ void Print_Users()
 	}
 }
 
+void Print_User_Borrow()
+{
+	int bookcode;
+	cout << "Enter book code: ";
+	cin >> bookcode;
+	for (int i = 0; i < UserCount; i++)
+	{
+		for (int j = 0; j < MaxBookBorrowed; j++)
+		{
+			if (users[i].BorrowedBooks[j] == bookcode)
+			{
+				cout << users[i].name << "\n";
+				break;
+			}
+		}
+	}
+}
+
 void main()
 {
 	int operation;
 	while (true)
 	{
-		cout << "\nLiberary Menu\n"
+		cout << "*************************************************************************\n"
+			 << "Liberary Menu\n"
 			 << "1)  add book\n"
 			 << "2)  search books by prefix\n"
 			 << "3)  print who borrowed book by name\n"
@@ -218,9 +238,9 @@ void main()
 			Search_Book_By_prefix();
 			break;
 
-		//case 3:
-		//	book->Add_Book();
-		//	break;
+		case 3:
+			Print_User_Borrow();
+			break;
 
 		case 4:
 			Print_Liberary_By_Id();
